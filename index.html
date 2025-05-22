@@ -1,0 +1,47 @@
+
+<!DOCTYPE html>
+<html lang="fa">
+<head>
+  <meta charset="UTF-8">
+  <title>فرم ثبت ساعت کاری</title>
+</head>
+<body style="font-family: sans-serif; direction: rtl; padding: 20px;">
+  <h2>فرم ثبت ساعت کاری ماهانه</h2>
+  <form onsubmit="sendData(event)">
+    <label>نام و نام خانوادگی:</label><br>
+    <input type="text" id="name" required><br><br>
+
+    <label>محل فعالیت:</label><br>
+    <select id="place">
+      <option value="مروی">مروی</option>
+      <option value="دفتر">دفتر</option>
+    </select><br><br>
+
+    <label>مجموع ساعات کاری ماه:</label><br>
+    <input type="number" id="hours" required><br><br>
+
+    <button type="submit">ارسال</button>
+  </form>
+
+  <script>
+    function sendData(event) {
+      event.preventDefault();
+      const name = document.getElementById("name").value;
+      const place = document.getElementById("place").value;
+      const hours = document.getElementById("hours").value;
+
+      const message = `📋 گزارش ساعت کاری:\n👤 نام: ${name}\n🏢 محل: ${place}\n⏱ ساعت: ${hours}`;
+
+      const webhookURL = "https://your-n8n-webhook-url"; // این قسمت بعداً تنظیم می‌شود
+
+      fetch(webhookURL, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ text: message })
+      })
+      .then(() => alert("ارسال شد!"))
+      .catch(() => alert("خطا در ارسال."));
+    }
+  </script>
+</body>
+</html>
